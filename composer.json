@@ -1,0 +1,14 @@
+{
+    "name": "app/penebusan-resep-dokter",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Rendy Pratama"
+        }
+    ],
+    "require": {}
+}
