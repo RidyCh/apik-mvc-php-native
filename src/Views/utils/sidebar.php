@@ -2,15 +2,17 @@
 $currentUrl = $_SERVER['REQUEST_URI'];
 
 $menuItems = array(
-    "/" => array("Dashboard", "bi-grid-fill"),
-    "/dokter" => array("Dokter", "bi-stack"),
-    "/pasien" => array("Pasien", "bi-stack"),
-    "/poliklinik" => array("Poliklinik", "bi-stack"),
-    "/obat" => array("Obat", "bi-stack"),
-    "/pendaftaran" => array("Pendaftaran", "bi-stack"),
-    "/resep" => array("Resep", "bi-stack"),
-    "/resep-detail" => array("Detail Resep", "bi-stack"),
-    "/pembayaran" => array("Pembayaran", "bi-stack")
+    "/dashboard" => array("Dashboard", "bi-grid-fill"),
+    "/dokter" => array("Dokter", "bi-person"),
+    "/pasien" => array("Pasien", "bi-person"),
+    "/poliklinik" => array("Poliklinik", "bi-hospital"),
+    "/obat" => array("Obat", "bi-capsule")
+);
+
+$menuTransaksiItems = array(
+    "/pendaftaran" => array("Pendaftaran", "bi-file-earmark-plus"),
+    "/resep" => array("Resep", "bi-clipboard2-pulse"),
+    "/pembayaran" => array("Pembayaran", "bi-wallet2")
 );
 
 ?>
@@ -19,7 +21,8 @@ $menuItems = array(
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <a href="/"><img src="../assets/compiled/svg/logo.svg" alt="Logo" srcset=""></a>
+                    <a href="/"><img src="public/assets/compiled/png/logo.png" width="70px" height="50px" alt="Logo"
+                            srcset=""></a>
                 </div>
                 <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -61,6 +64,21 @@ $menuItems = array(
 
                 <?php
                 foreach ($menuItems as $url => $item) {
+                    $isActive = ($currentUrl === $url) ? 'active' : '';
+                    ?>
+                    <li class="sidebar-item <?= $isActive; ?>">
+                        <a href="<?= $url; ?>" class='sidebar-link'>
+                            <i class="bi <?= $item[1]; ?>"></i>
+                            <span><?= $item[0]; ?></span>
+                        </a>
+
+                    </li>
+                <?php } ?>
+
+                <hr>
+
+                <?php
+                foreach ($menuTransaksiItems as $url => $item) {
                     $isActive = ($currentUrl === $url) ? 'active' : '';
                     ?>
                     <li class="sidebar-item <?= $isActive; ?>">

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Helpers;
 use App\Controller;
 use App\Models\Poliklinik;
 
@@ -29,19 +30,18 @@ class PoliklinikController extends Controller
         $result = $this->model->addPoliklinik($kode_plk, $nama_plk);
 
         if ($result) {
-            header('Location: /poliklinik');
+            Helpers::back();
         } else {
             echo "Gagal menambahkan Poliklinik.";
         }
     }
-    public function updatePoliklinik()
+    public function updatePoliklinik($kode_plk)
     {
-        $kode_plk = $_POST['kode_plk'];
         $nama_plk = $_POST['nama_plk'];
         $result = $this->model->updatePoliklinik($kode_plk, $nama_plk);
 
         if ($result) {
-            header('Location: /poliklinik');
+            Helpers::back();
         } else {
             echo "Gagal menambahkan Poliklinik.";
         }
@@ -52,7 +52,7 @@ class PoliklinikController extends Controller
         $result = $this->model->delPoliklinik($kode_plk);
 
         if ($result) {
-            header('Location: /poliklinik');
+            Helpers::back();
         } else {
             echo "Gagal menghapus data Poliklinik.";
             echo 'berhasil';

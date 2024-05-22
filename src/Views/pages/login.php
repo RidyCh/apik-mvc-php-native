@@ -1,23 +1,27 @@
+<?php require_once 'src/Views/header.php' ?>
+
 <div id="auth">
 
     <div class="row h-100">
         <div class="col-lg-5 col-12">
             <div id="auth-left">
                 <div class="auth-logo">
-                    <a href="index.html"><img src="./assets/compiled/svg/logo.svg" alt="Logo"></a>
+                    <a href="/"><img src="public/assets/compiled/png/logo.png" alt="Logo"></a>
                 </div>
                 <h1 class="auth-title">Log in.</h1>
                 <!-- <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p> -->
 
                 <form action="/auth" method="POST">
                     <div class="form-group position-relative has-icon-left mb-4">
-                        <input type="text" class="form-control form-control-xl" name="username" placeholder="Username" required>
+                        <input type="text" class="form-control form-control-xl" name="username" placeholder="Username"
+                            required>
                         <div class="form-control-icon">
                             <i class="bi bi-person"></i>
                         </div>
                     </div>
                     <div class="form-group position-relative has-icon-left mb-4">
-                        <input type="password" class="form-control form-control-xl" name="password" placeholder="Password" required>
+                        <input type="password" class="form-control form-control-xl" name="password"
+                            placeholder="Password" required>
                         <div class="form-control-icon">
                             <i class="bi bi-shield-lock"></i>
                         </div>
@@ -45,3 +49,4 @@
     </div>
 
 </div>
+<?php require_once 'src/Views/tutup.php' ?>

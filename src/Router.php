@@ -4,21 +4,24 @@ namespace App;
 
 class Router
 {
-    protected $routes = [];
+    private $routes = [];
 
-    private function addRoute($route, $controller, $action, $method)
+    public function get($uri, $controller, $method, $middleware = null)
     {
-        $this->routes[$method][$route] = ['controller' => $controller, 'action' => $action];
+        $this->routes['GET'][$uri] = [
+            'controller' => $controller,
+            'action' => $method,
+            'middleware' => $middleware
+        ];
     }
 
-    public function get($route, $controller, $action)
+    public function post($uri, $controller, $method, $middleware = null)
     {
-        $this->addRoute($route, $controller, $action, "GET");
-    }
-
-    public function post($route, $controller, $action)
-    {
-        $this->addRoute($route, $controller, $action, "POST");
+        $this->routes['POST'][$uri] = [
+            'controller' => $controller,
+            'action' => $method,
+            'middleware' => $middleware
+        ];
     }
 
     public function dispatch()
@@ -27,9 +30,12 @@ class Router
         $method = $_SERVER['REQUEST_METHOD'];
 
         $matchedRoute = null;
+        $params = [];
+
         foreach ($this->routes[$method] as $route => $controllerAction) {
             if (preg_match("~^$route$~", $uri, $matches)) {
                 $matchedRoute = $controllerAction;
+                $params = array_slice($matches, 1);
                 break;
             }
         }
@@ -37,13 +43,21 @@ class Router
         if ($matchedRoute !== null) {
             $controller = $matchedRoute['controller'];
             $action = $matchedRoute['action'];
+            $middleware = $matchedRoute['middleware'] ?? null;
 
-            $params = array_slice($matches, 1);
+            if ($middleware !== null) {
+                if (is_callable([$middleware, 'handle'])) {
+                    $middlewareInstance = new $middleware();
+                    $middlewareInstance->handle();
+                } elseif (is_callable($middleware)) {
+                    call_user_func($middleware);
+                }
+            }
 
             $controllerInstance = new $controller();
             call_user_func_array([$controllerInstance, $action], $params);
         } else {
-            header("Location: /halaman-tidak-ditemukan");
+            Helpers::redirect('/not-found');
         }
     }
 }

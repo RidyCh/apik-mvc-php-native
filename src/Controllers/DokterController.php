@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Helpers;
 use App\Controller;
 use App\Models\Dokter;
 use App\Models\Poliklinik;
@@ -40,7 +41,7 @@ class DokterController extends Controller
         $result = $this->model->addDokter($nama_dr, $spesialis, $alamat_dr, $telepon_dr, $kode_plk, $tarif);
 
         if ($result) {
-            header('Location: /dokter');
+            Helpers::back();
         } else {
             echo "Gagal menambahkan Dokter.";
         }
@@ -56,7 +57,7 @@ class DokterController extends Controller
         $result = $this->model->updateDokter($kode_dr, $nama_dr, $spesialis, $alamat_dr, $telepon_dr, $kode_plk, $tarif);
 
         if ($result) {
-            header('Location: /dokter');
+            Helpers::back();
         } else {
             echo "Gagal menambahkan Dokter.";
         }
@@ -67,7 +68,7 @@ class DokterController extends Controller
         $result = $this->model->delDokter($kode_dr);
 
         if ($result) {
-            header('Location: /dokter');
+            Helpers::back();
         } else {
             echo "Gagal menghapus data Dokter.";
         }

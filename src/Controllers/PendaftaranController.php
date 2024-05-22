@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Helpers;
 use App\Controller;
 use App\Models\Pasien;
 use App\Models\Pendaftaran;
@@ -24,6 +25,18 @@ class PendaftaranController extends Controller
         $this->model_psn = new Pasien();
     }
 
+    public function callNext()
+    {
+        $currentNumber = $this->model->getCurrentAntrian();
+        
+        if ($currentNumber) {
+            $this->model->updateStatusToNext($currentNumber);
+        } else {
+            $this->model->updateStatusToNext(null);
+        }
+
+        Helpers::back();
+    }
 
     public function index()
     {
@@ -31,15 +44,32 @@ class PendaftaranController extends Controller
         $plk = $this->model_plk->getAllPoliklinik();
         $dr = $this->model_dr->getAllDokter();
         $psn = $this->model_psn->getAllPasien();
+        $current = $this->model->getCurrentAntrian();
         $this->render('pendaftaran/index', [
             'data' => $daftar,
             'plk' => $plk,
             'dr' => $dr,
             'psn' => $psn,
+            'current' => $current
         ]);
     }
 
     public function createPendaftaran()
+    {
+        $kode_dr = $_POST['kode_dr'];
+        $kode_psn = $_POST['kode_psn'];
+        $kode_plk = $_POST['kode_plk'];
+        $biaya = $_POST['biaya'];
+        $ket = $_POST['ket'];
+        $result = $this->model->addPendaftaran($kode_dr, $kode_psn, $kode_plk, $biaya, $ket);
+
+        if ($result) {
+            Helpers::back();
+        } else {
+            echo "Gagal menambahkan Pendaftaran.";
+        }
+    }
+    public function updatePendaftaran($nmr_pendaftaran)
     {
         $tgl_pendaftaran = $_POST['tgl_pendaftaran'];
         $kode_dr = $_POST['kode_dr'];
@@ -47,27 +77,23 @@ class PendaftaranController extends Controller
         $kode_plk = $_POST['kode_plk'];
         $biaya = $_POST['biaya'];
         $ket = $_POST['ket'];
-        $result = $this->model->addPendaftaran($tgl_pendaftaran, $kode_dr, $kode_psn, $kode_plk, $biaya, $ket);
+        $result = $this->model->updatePendaftaran($nmr_pendaftaran, $tgl_pendaftaran, $kode_dr, $kode_psn, $kode_plk, $biaya, $ket);
 
         if ($result) {
-            header('Location: /pendaftaran');
+            Helpers::back();
         } else {
             echo "Gagal menambahkan Pendaftaran.";
         }
     }
-    public function updatePendaftaran()
-    {
 
-    }
-
-    public function deletePendaftaran($kode_psn)
+    public function deletePendaftaran($nmr_pendaftaran)
     {
-        $result = $this->model->delPendaftaran($kode_psn);
+        $result = $this->model->delPendaftaran($nmr_pendaftaran);
 
         if ($result) {
-            header('Location: /pendaftaran');
+            Helpers::back();
         } else {
-            echo "Gagal menghapus data pasien.";
+            echo "Gagal menghapus data Pendaftaran.";
     }
 }
 }

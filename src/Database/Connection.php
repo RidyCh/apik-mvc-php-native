@@ -2,25 +2,26 @@
 
 namespace App\Database;
 
-class Connection
-{
-    public $conn;
-    public function __construct()
-    {
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "penebusan_resep";
+class Connection {
+    private static $conn;
 
-        $this->conn = new \mysqli($servername, $username, $password, $dbname);
+    public function __construct() {}
 
-        if ($this->conn->connect_error) {
-            die("Connection failed: " . $this->conn->connect_error);
+    public static function getConnection() {
+        if (!self::$conn) {
+            $host = 'localhost';
+            $dbname = 'penebusan_resep';
+            $username = 'root';
+            $password = '';
+
+            self::$conn = new \mysqli($host, $username, $password, $dbname);
+
+            if (!self::$conn) {
+                die("Koneksi gagal: " . mysqli_connect_error());
+            }
         }
-    }
 
-    public function getConnection() {
-        return $this->conn;
+        return self::$conn;
     }
 }
 

@@ -6,59 +6,33 @@ use App\Database\Connection;
 
 class User extends Connection
 {
-    private $id;
-    private $username;
-    private $password;
+    private $db;
 
-    public function __construct($id, $username, $password)
+    public function __construct()
     {
-        $connection = new Connection();
-        $this->conn = $connection->getConnection();
-        $this->id = $id;
-        $this->username = $username;
-        $this->password = $password;
+        parent::__construct();
+        $this->db = Connection::getConnection();
     }
 
-    public function getId()
+    public function getLogin($username, $password)
     {
-        return $this->id;
-    }
+        $username = $this->db->real_escape_string($username);
+        $password = $this->db->real_escape_string($password);
 
+        $sql = "SELECT * FROM login WHERE username = '$username' AND password = '$password'";
+        $result = $this->db->query($sql);
+        $num = $result->num_rows;
+        $rows = $result->fetch_assoc();
 
-    public function findByUsername($username)
-    {
-        $sql = "SELECT * FROM login where username = '$username'";
-        $result = $this->conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            return new User($row['id_account'], $row['username'], $row['password']);
+        if ($num > 0) {
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+            $_SESSION['id_account'] = $rows['id_account'];
+            $_SESSION['username'] = $rows['username'];
+            return true;
         } else {
-            return null;
-        }
-    }
-
-    public function checkPassword($password)
-    {
-        $sql = "SELECT * FROM login where password = '$password'";
-        $result = $this->conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            return new User($row['id_account'], $row['username'], $row['password']);
-        } else {
-            return null;
-        }
-    }
-
-    public static function getLogin($username, $password)
-    {
-        $user = (new User(null, null, null))->findByUsername($username);
-
-        if ($user && $user->checkPassword($password)) {
-            return $user;
-        } else {
-            return null;
+            return false;
         }
     }
 }
