@@ -117,7 +117,8 @@ class ResepController extends Controller
     public function detail($nmr_resep)
     {
         $nomor_rsp = $nmr_resep;
-        $detail = $this->model_detail->getDetailByResep($nmr_resep);
+        $detail = $this->model_detail->getDetailByResep($nomor_rsp);
+        $data = $this->model->getResepByDetail($nomor_rsp);
         $resep = $this->model->getAllResep();
         $ob = $this->model_ob->getAllObat();
         $dr = $this->model_dr->getAllDokter();
@@ -138,6 +139,7 @@ class ResepController extends Controller
 
         $this->render('resep/detail', [
             'data' => $detail,
+            'datas' => $data,
             'nomor' => $nomor_rsp,
             'rsp' => $resep,
             'ob' => $ob,

@@ -75,7 +75,7 @@
                                             <?php if ($daftar['status'] == 'Antri'): ?>
                                             <form action="/add-resep-<?= $daftar['nmr_pendaftaran'] ?>" method="post" style="display:inline;">
                                                 <button type="submit" class="btn btn-warning"><i class="bi bi-sticky"></i>
-                                                    Tulis Resep Baru</button> |
+                                                    Resep Obat</button> |
                                             </form>
                                             <?php endif; ?>
                                             <!-- <form action="/delete-pendaftaran/<?= $daftar["nmr_pendaftaran"] ?>"

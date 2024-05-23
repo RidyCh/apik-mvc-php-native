@@ -65,6 +65,20 @@ class Resep extends Connection
 
         return $resep;
     }
+    public function getResepByDetail($nmr_resep)
+    {
+        $sql = "SELECT * FROM resep WHERE nmr_resep = '$nmr_resep'";
+        $result = $this->db->query($sql);
+
+        $resep = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $resep[] = $row;
+            }
+        }
+
+        return $resep;
+    }
 
     public function getResepByNomor($nmr_resep)
     {

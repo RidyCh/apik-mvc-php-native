@@ -24,6 +24,37 @@
             </div>
             <section class="section">
                 <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <?php foreach ($datas as $item): ?>
+                                <div class="mb-3">
+                                    <h6>Nama Pasien: <?php foreach ($psn as $pasien): ?>
+                                            <?= ($pasien['kode_psn'] == $item['kode_psn']) ? $pasien['nama_psn'] : ''; ?>
+                                        <?php endforeach; ?>
+                                    </h6>
+                                </div>
+                                <div class="mb-3">
+                                    <h6>Poliklinik: <?php foreach ($plk as $poliklinik): ?>
+                                            <?= ($poliklinik['kode_plk'] == $item['kode_plk']) ? $poliklinik['nama_plk'] : ''; ?>
+                                        <?php endforeach; ?>
+                                    </h6>
+                                </div>
+                                <div class="mb-3">
+                                    <h6>Dokter: <?php foreach ($dr as $dokter): ?>
+                                            <?= ($dokter['kode_dr'] == $item['kode_dr']) ? $dokter['nama_dr'] . ' - Spesialis ' . $dokter['spesialis'] : ''; ?>
+                                        <?php endforeach; ?>
+                                    </h6>
+                                </div>
+                                <div class="mb-3">
+                                    <h6>Nomor Resep: <?= $nomor ?></h6>
+                                </div>
+                                <div class="mb-3">
+                                    <h6>Tanggal
+                                        Resep: <?= $item['tgl_resep'] ?></h6>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
                     <div class="card-header">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">

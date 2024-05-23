@@ -50,7 +50,7 @@ $router->post('/add-pendaftaran', PendaftaranController::class, 'createPendaftar
 $router->post('/update-pendaftaran/(.*)', PendaftaranController::class, 'updatePendaftaran', AuthMiddleware::class);
 $router->post('/delete-pendaftaran/(.*)', PendaftaranController::class, 'deletePendaftaran', AuthMiddleware::class);
 
-// $router->get('/antrian', AuthController::class, 'panggilan', AuthMiddleware::class);
+// $router->get('/panggil-pasien', AuthController::class, 'panggilan', AuthMiddleware::class);
 // $router->post('/call-next', PendaftaranController::class, 'callNext', AuthMiddleware::class);
 // $router->post('/call-next', ResepController::class, 'callNext', AuthMiddleware::class);
 

@@ -10,8 +10,6 @@ class Pembayaran extends Connection
 
     public function __construct()
     {
-        // $connection = new Connection();
-        // $this->db = $connection->getConnection();
         parent::__construct();
         $this->db = Connection::getConnection();
     }
